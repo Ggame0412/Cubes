@@ -4,8 +4,16 @@
 name: Java CI with Gradle
 
 on:
-  push:
-    branches: [ master ]
+  workflow_dispatch:   # ← это включает ручной запуск
+    inputs:
+      branch:
+        description: 'Branch to build'
+        required: true
+        default: 'master'
+      publish:
+        description: 'Publish to Maven'
+        type: boolean
+        default: false
 
 jobs:
   build:
