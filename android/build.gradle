@@ -1,6 +1,7 @@
 android {
     buildToolsVersion androidBuildToolsVersion
     compileSdkVersion androidSdkVersion
+    ndkVersion "21.4.7075529"
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
