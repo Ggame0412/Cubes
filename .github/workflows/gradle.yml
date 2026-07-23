@@ -4,35 +4,35 @@
 name: Java CI with Gradle
 
 on:
-  workflow_dispatch:   # ← это включает ручной запуск
+  workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to build'
         required: true
         default: 'master'
-      publish:
-        description: 'Publish to Maven'
-        type: boolean
-        default: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
+        ref: ${{ github.event.inputs.branch || 'master' }}
         fetch-depth: 0
+
     - name: Set up JDK 8
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'adopt'
         cache: gradle
-    - name: Setup android sdk
+
+    - name: Setup Android SDK
       run: ./android/travis_androidsdk.sh
+
     - name: Build with Gradle
-      run: ./gradlew ciPublish
+      run: ./gradlew build   # или ./gradlew ciPublish, если нужно публиковать
       env:
         MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
         MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
