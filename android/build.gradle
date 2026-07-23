@@ -13,17 +13,17 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    signingConfigs {
-        release {
-            storeFile file(localProperties.ANDROID_KEYSTORE_FILE)
-            storePassword localProperties.ANDROID_KEYSTORE_PASSWORD
-            keyAlias localProperties.ANDROID_KEYSTORE_KEY_ALIAS
-            keyPassword localProperties.ANDROID_KEYSTORE_KEY_PASSWORD
-        }
-    }
+    //signingConfigs {
+    //    release {
+    //        storeFile file(localProperties.ANDROID_KEYSTORE_FILE)
+    //        storePassword localProperties.ANDROID_KEYSTORE_PASSWORD
+    //        keyAlias localProperties.ANDROID_KEYSTORE_KEY_ALIAS
+    //        keyPassword localProperties.ANDROID_KEYSTORE_KEY_PASSWORD
+    //    }
+    //}
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // signingConfig signingConfigs.release
         }
     }
     defaultConfig {
