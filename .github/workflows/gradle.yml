@@ -40,7 +40,19 @@ jobs:
         find $ANDROID_HOME/ndk -maxdepth 2 -type d || true
 
     - name: Build with Gradle
-      run: ./gradlew build   # или ./gradlew ciPublish, если нужно публиковать
-      env:
-        MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
-        MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
+      run: ./gradlew buildAll   # или ./gradlew ciPublish, если нужно публиковать
+      //env:
+      //  MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
+      //  MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
+
+    - name: Show build outputs
+      run: |
+        find . -type f \( -name "*.jar" -o -name "*.apk" -o -name "*.exe" \) | sort
+    - name: Upload files
+      uses: actions/upload-artifact@v4
+      with:
+        name: cubes-release
+        path: |
+          **/*.jar
+          **/*.apk
+          **/*.exe
