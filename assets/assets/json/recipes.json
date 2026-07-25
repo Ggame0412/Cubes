@@ -11,15 +11,33 @@
   {
     "output": "core:chest",
     "recipe": [
-      "core:planks",
-      "core:planks",
-      "core:planks",
-      "core:planks",
-      null,
-      "core:planks",
-      "core:planks",
-      "core:planks",
-      "core:planks"
+      "core:planks",  "core:planks", "core:planks",
+      "core:planks",      null,      "core:planks",
+      "core:planks",  "core:planks", "core:planks"
+    ]
+  },
+  {
+    "output": { "id": "core:pickaxe", "count": 1 },
+    "recipe": [
+      "core:stone", "core:stone", "core:stone",
+      null,          "core:planks",  null,
+      null,          "core:planks",  null
+    ]
+  },
+  {
+    "output": { "id": "core:axe", "count": 1 },
+    "recipe": [
+      "core:stone", "core:stone", null,
+      "core:stone", "core:planks",  null,
+      null,          "core:planks",  null
+    ]
+  },
+  {
+    "output": { "id": "core:shovel", "count": 1 },
+    "recipe": [
+      null, "core:stone", null,
+      null, "core:planks",  null,
+      null, "core:planks",  null
     ]
   }
 ]
