@@ -20,24 +20,32 @@
     "output": { "id": "core:pickaxe", "count": 1 },
     "recipe": [
       "core:stone", "core:stone", "core:stone",
-      null,          "core:planks",  null,
-      null,          "core:planks",  null
+      null,          "core:stick",  null,
+      null,          "core:stick",  null
     ]
   },
   {
     "output": { "id": "core:axe", "count": 1 },
     "recipe": [
-      "core:stone", "core:stone", null,
-      "core:stone", "core:planks",  null,
-      null,          "core:planks",  null
+      "core:stone",  "core:stone",   null,
+      "core:stone",  "core:stick",  null,
+         null,       "core:stick",  null
     ]
   },
   {
     "output": { "id": "core:shovel", "count": 1 },
     "recipe": [
       null, "core:stone", null,
-      null, "core:planks",  null,
-      null, "core:planks",  null
+      null, "core:stick",  null,
+      null, "core:stick",  null
+    ]
+  },
+  {
+    "output": { "id": "core:stick", "count": 4 },
+    "recipe": [
+      null,     null,      null,
+      null, "core:planks", null,
+      null, "core:planks", null
     ]
   }
 ]

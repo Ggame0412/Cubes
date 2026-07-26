@@ -19,5 +19,8 @@
       "type": "shovel",
       "level": 1
     }
+  },
+  {
+    "id": "core:stick"
   }
 ]
