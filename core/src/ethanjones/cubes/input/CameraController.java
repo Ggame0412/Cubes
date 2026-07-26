@@ -201,6 +201,7 @@ public class CameraController extends InputAdapter {
         prevDirection.set(player.angle);
         lastMovementSendTime = now;
       }
+    }
   }
 
   public boolean flying() {
