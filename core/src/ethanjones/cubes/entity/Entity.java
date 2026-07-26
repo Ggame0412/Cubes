@@ -57,8 +57,8 @@ public class Entity implements DataParser, Disposable {
       updatePosition(Cubes.tickMS / 1000f);
     } else if (hasNetworkPosition) {
       // Плавное движение к цели (только на клиенте для других игроков)
-      position.lerp(targetPosition, 0.35f);
-      angle.lerp(targetAngle, 0.35f);
+      position.lerp(targetPosition, 0.75f);
+      angle.lerp(targetAngle, 0.75f);
     }
 
     motion.scl(0.9f, 1f, 0.9f);
