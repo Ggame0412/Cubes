@@ -22,12 +22,15 @@ public class Entity implements DataParser, Disposable {
   public static float GRAVITY = 8f;
 
   public UUID uuid;
-  public float height = 0f;
-  public final Vector3 position;
-  public final Vector3 angle;
-  public final Vector3 motion;
-  public final String id;
-  protected Vector3 tmpVector;
+  public float   height  = 0f;
+  public final   Vector3 position;
+  public final   Vector3 angle;
+  public final   Vector3 motion;
+  public final   String  id;
+  protected      Vector3 tmpVector;
+  public final   Vector3 targetPosition = new Vector3();
+  public final   Vector3 targetAngle    = new Vector3();
+  public boolean hasNetworkPosition     = false;
 
   public Entity(String id) {
     this(UUID.randomUUID(), id, new Vector3(), new Vector3(1f, 0f, 0f));
@@ -50,7 +53,14 @@ public class Entity implements DataParser, Disposable {
    * @return true to be removed
    */
   public boolean update() {
-    if (Side.isServer()) updatePosition(Cubes.tickMS / 1000f);
+    if (Side.isServer()) {
+      updatePosition(Cubes.tickMS / 1000f);
+    } else if (hasNetworkPosition) {
+      // Плавное движение к цели (только на клиенте для других игроков)
+      position.lerp(targetPosition, 0.35f);
+      angle.lerp(targetAngle, 0.35f);
+    }
+
     motion.scl(0.9f, 1f, 0.9f);
     if (motion.len2() < 0.01f) motion.set(0f, 0f, 0f);
 
