@@ -35,6 +35,7 @@ public class CameraController extends InputAdapter {
   private final Vector3 tmpMovement = new Vector3();
   private Vector3 prevPosition = new Vector3();
   private Vector3 prevDirection = new Vector3();
+  private long lastMovementSendTime = 0;
   
   private final Camera camera;
   private boolean jumping = false;
@@ -192,11 +193,14 @@ public class CameraController extends InputAdapter {
 
   public void tick() {
     Player player = Cubes.getClient().player;
-    if (!player.position.equals(prevPosition) || !player.angle.equals(prevDirection)) {
-      NetworkingManager.sendPacketToServer(new PacketPlayerMovement(player));
-      prevPosition.set(player.position);
-      prevDirection.set(player.angle);
-    }
+    long now = System.currentTimeMillis();
+    if (now - lastMovementSendTime >= 50) {
+      if (!player.position.equals(prevPosition) || !player.angle.equals(prevDirection)) {
+        NetworkingManager.sendPacketToServer(new PacketPlayerMovement(player));
+        prevPosition.set(player.position);
+        prevDirection.set(player.angle);
+        lastMovementSendTime = now;
+      }
   }
 
   public boolean flying() {
