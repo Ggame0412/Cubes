@@ -54,7 +54,7 @@ public class AndroidCompatibility extends Compatibility {
   @Override
   public FileHandle getBaseFolder() {
     // Use local to avoid having to request WRITE_EXTERNAL_STORAGE permission
-    return Gdx.files.external("Android/data/ethanjones.cubes/files/" + Branding.NAME);
+    return Gdx.files.external(Branding.NAME);
   }
 
   @Override
