@@ -32,7 +32,7 @@ jobs:
       run: ./android/travis_androidsdk.sh
 
     - name: Print versions
-      run:
+      run: |
         java -version
         ./gradlew --version
         echo "ANDROID_HOME=$ANDROID_HOME"
@@ -45,14 +45,49 @@ jobs:
       #  MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
       #  MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
 
-    - name: Show build outputs
+    - name: Sort build outputs into staging folders
       run: |
-        find . -type f \( -name "*.jar" -o -name "*.apk" -o -name "*.exe" \) | sort
-    - name: Upload files
+        mkdir -p staging/android staging/jar staging/exe staging/other
+
+        # APK — всё, что относится к Android
+        find . -type f -name "*.apk" -exec cp {} staging/android/ \;
+
+        # JAR — desktop/server сборки и т.п.
+        find . -type f -name "*.jar" -exec cp {} staging/jar/ \;
+
+        # EXE — Windows-сборки (если есть)
+        find . -type f -name "*.exe" -exec cp {} staging/exe/ \;
+
+        # Всё остальное, что может пригодиться (например AAB, mapping.txt, natives и т.д.)
+        find . -type f \( -name "*.aab" -o -name "mapping.txt" \) -exec cp {} staging/other/ \; || true
+
+        echo "== Staged files =="
+        find staging -type f | sort
+
+    - name: Upload Android APKs
       uses: actions/upload-artifact@v4
       with:
-        name: cubes-release
-        path: |
-          **/*.jar
-          **/*.apk
-          **/*.exe
+        name: cubes-android
+        path: staging/android/*
+        if-no-files-found: warn
+
+    - name: Upload JARs
+      uses: actions/upload-artifact@v4
+      with:
+        name: cubes-jar
+        path: staging/jar/*
+        if-no-files-found: warn
+
+    - name: Upload EXEs
+      uses: actions/upload-artifact@v4
+      with:
+        name: cubes-exe
+        path: staging/exe/*
+        if-no-files-found: warn
+
+    - name: Upload other files
+      uses: actions/upload-artifact@v4
+      with:
+        name: cubes-other
+        path: staging/other/*
+        if-no-files-found: ignore
