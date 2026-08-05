@@ -27,6 +27,7 @@ import ethanjones.cubes.side.client.CubesClient;
 import ethanjones.cubes.side.server.CubesServer;
 import ethanjones.cubes.world.World;
 import ethanjones.cubes.world.light.WorldLightHandler;
+import ethanjones.cubes.core.mod.ModInstance;
 
 import com.badlogic.gdx.Gdx;
 
@@ -111,13 +112,21 @@ public abstract class Cubes {
     this.side = side;
   }
 
-  public void create() {
+    public void create() {
     thread = Thread.currentThread();
     Side.setup(side);
     Compatibility.get().sideInit(side);
     Side.getSidedEventBus().register(this);
     Side.getSidedEventBus().register(new WorldLightHandler());
+    
+    for (ethanjones.cubes.core.mod.ModInstance modInstance : ModManager.getMods()) {
+      Object mod = modInstance.getMod();
+      if (mod != null) {
+        Side.getSidedEventBus().register(mod);
+      }
+    }
   }
+
 
   // call as often as possible
   protected void update() {
